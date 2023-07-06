@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const {
   DEPLOY_USER,
-  DEPLOY_HOST,
+  DEPLOY_HOST = "158.160.116.43",
   DEPLOY_PATH,
   DEPLOY_REF = "origin/master",
 } = process.env;
