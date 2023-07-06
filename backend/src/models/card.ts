@@ -1,42 +1,36 @@
-import mongoose, { ObjectId } from 'mongoose';
-import { urlRegExp } from '../middlewares/validatons';
+import mongoose from 'mongoose';
+import validator from 'validator';
+import { ICard } from '../types';
 
-interface ICard {
-  name: string;
-  link: string;
-  owner: ObjectId;
-  likes: ObjectId[];
-  createdAt: Date | string;
-}
-
-const cardsSchema = new mongoose.Schema<ICard>({
+const cardSchema = new mongoose.Schema<ICard>({
   name: {
     type: String,
-    required: [true, 'Поле "name" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "name" - 2'],
-    maxlength: [30, 'Максимальная длина поля "name" - 30'],
+    required: true,
+    minLength: 2,
+    maxLength: 30,
   },
   link: {
     type: String,
-    required: [true, 'Поле "link" должно быть заполнено'],
+    required: true,
     validate: {
-      validator: (v: string) => urlRegExp.test(v),
-      message: 'Поле "link" должно быть валидным url-адресом.',
+      validator: (v: any) => validator.isURL(v),
+      message: 'Невалидная ссылка',
     },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: 'user',
     required: true,
   },
-  likes: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+  likes: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'user',
     default: [],
-  },
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
   },
-}, { versionKey: false });
+});
 
-export default mongoose.model<ICard>('card', cardsSchema);
+export default mongoose.model<ICard>('card', cardSchema);

@@ -1,26 +1,15 @@
-import {
-  Router, Request, Response, NextFunction,
-} from 'express';
-import userRouter from './users';
-import cardRouter from './cards';
-import auth from '../middlewares/auth';
-import NotFoundError from '../errors/not-found-error';
-import {
-  createUser, login,
-} from '../controllers/users';
-import { validateUserBody, validateAuthentication } from '../middlewares/validatons';
+import { Request, Response, Router } from 'express';
+import userRoutes from './user';
+import cardRoutes from './card';
 
-const router = Router();
-router.post('/signup', validateUserBody, createUser);
-router.post('/signin', validateAuthentication, login);
+const routes = Router();
 
-// все роуты, кроме /signin и /signup, защищены авторизацией;
-router.use(auth);
-router.use('/users', userRouter);
-router.use('/cards', cardRouter);
+routes.use('/users', userRoutes);
 
-router.use((req: Request, res: Response, next: NextFunction) => {
-  next(new NotFoundError('Маршрут не найден'));
+routes.use('/cards', cardRoutes);
+
+routes.use('*', (req: Request, res: Response) => {
+  res.status(404).send({ message: 'Страница не найдена' });
 });
 
-export default router;
+export default routes;
