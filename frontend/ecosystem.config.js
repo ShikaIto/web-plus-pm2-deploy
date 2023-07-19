@@ -13,7 +13,7 @@ module.exports = {
       user: DEPLOY_USER,
       host: DEPLOY_HOST,
       ref: DEPLOY_REF,
-      repo: "https://github.com/ShikaIto/web-plus-pm2-deploy",
+      repo: "git@github.com:ShikaIto/web-plus-pm2-deploy.git",
       path: DEPLOY_PATH,
       "pre-deploy-local": "npm run build",
       "post-deploy-local": `scp -Cr ./build/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
