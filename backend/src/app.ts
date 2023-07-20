@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import { celebrate, Joi, errors } from 'celebrate';
 import validator from 'validator';
+import cors from 'cors';
 import routes from './routes/index';
 import { login, createUser } from './controllers/user';
 import error from './middlewares/error';
@@ -16,6 +17,8 @@ const { PORT = 3000 } = process.env;
 const { MONGOURL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const app = express();
+
+app.use(cors());
 
 app.use(cookieParser());
 
