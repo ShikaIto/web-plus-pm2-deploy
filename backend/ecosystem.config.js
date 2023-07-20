@@ -43,7 +43,8 @@ module.exports = {
       repo: "git@github.com:ShikaIto/web-plus-pm2-deploy.git",
       path: DEPLOY_PATH,
       "pre-deploy-local": `scp ./.env ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
-      "post-deploy": "npm i && npm run build",
+      "post-deploy":
+        "cd backend && npm ci && npm run build && pm2 startOrRestart ecosystem.config.js --env production",
     },
   },
 };
