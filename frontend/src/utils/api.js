@@ -130,6 +130,6 @@ class Api {
   }
 }
 // Замените на адрес вашего бэкенда
-const api = new Api("http://api.shika.project.nomoreparties.sbs");
+const api = new Api("https://api.shika.project.nomoreparties.sbs");
 
 export default api;
