@@ -19,6 +19,7 @@ class Api {
     return fetch(`${this._address}/cards`, {
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(getResponse);
   }
@@ -28,6 +29,7 @@ class Api {
       method: "POST",
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -42,6 +44,7 @@ class Api {
       method: "DELETE",
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -51,6 +54,7 @@ class Api {
     return fetch(`${this._address}/users/me`, {
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -61,6 +65,7 @@ class Api {
       method: "PATCH",
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -75,6 +80,7 @@ class Api {
       method: "PATCH",
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -88,6 +94,7 @@ class Api {
       method: like ? "PUT" : "DELETE",
       headers: {
         credentials: "include",
+        Authorization: `Bearer ${this._token}`,
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -124,7 +131,7 @@ class Api {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
+        Authorization: `Bearer ${token}`,
       },
     }).then(getResponse);
   }

@@ -125,7 +125,7 @@ export const login = async (
     return res
       .cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true })
       .status(200)
-      .send({ message: 'Авторизация успешна' });
+      .send({ message: 'Авторизация успешна', token });
   } catch (error) {
     return next(error);
   }

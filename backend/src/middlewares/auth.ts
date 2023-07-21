@@ -4,10 +4,15 @@ import { RequestCastom } from '../types';
 import AuthorizationError from '../errors/authorization-err';
 
 const auth = (req: RequestCastom, res: Response, next: NextFunction) => {
-  const token = req.cookies.jwt;
+  let token = req.cookies.jwt;
+  const { authorization } = req.headers;
 
-  if (!token) {
+  if (!token && (!authorization || !authorization.startsWith('Bearer '))) {
     throw new AuthorizationError('Необходима авторизация');
+  }
+
+  if (!token && authorization) {
+    token = authorization.replace('Bearer ', '');
   }
 
   let payload;
