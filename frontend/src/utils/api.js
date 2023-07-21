@@ -18,7 +18,7 @@ class Api {
   getCardList() {
     return fetch(`${this._address}/cards`, {
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
       },
     }).then(getResponse);
   }
@@ -27,7 +27,7 @@ class Api {
     return fetch(`${this._address}/cards`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -41,7 +41,7 @@ class Api {
     return fetch(`${this._address}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -50,7 +50,7 @@ class Api {
   getUserInfo() {
     return fetch(`${this._address}/users/me`, {
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -60,7 +60,7 @@ class Api {
     return fetch(`${this._address}/users/me`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -74,7 +74,7 @@ class Api {
     return fetch(`${this._address}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -87,7 +87,7 @@ class Api {
     return fetch(`${this._address}/cards/${cardId}/likes`, {
       method: like ? "PUT" : "DELETE",
       headers: {
-        Authorization: `Bearer ${this._token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
     }).then(getResponse);
@@ -124,7 +124,7 @@ class Api {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        credentials: "include",
       },
     }).then(getResponse);
   }

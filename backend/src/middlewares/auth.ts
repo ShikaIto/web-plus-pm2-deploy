@@ -4,7 +4,7 @@ import { RequestCastom } from '../types';
 import AuthorizationError from '../errors/authorization-err';
 
 const auth = (req: RequestCastom, res: Response, next: NextFunction) => {
-  const token = req.cookies.jwt || req.header('Authorization');
+  const token = req.cookies.jwt;
 
   if (!token) {
     throw new AuthorizationError('Необходима авторизация');
