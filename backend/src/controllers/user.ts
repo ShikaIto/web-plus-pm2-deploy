@@ -7,7 +7,11 @@ import NotFoundError from '../errors/not-found-err';
 import ValidationError from '../errors/validation-err';
 import User from '../models/user';
 
-export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const users = await User.find();
     return res.status(200).send(users);
@@ -16,7 +20,11 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { password } = req.body;
     const hash = await bcrypt.hash(password, 10);
@@ -34,7 +42,11 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const getUser = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const getUser = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.user;
     const user = await User.findById(id);
@@ -50,11 +62,17 @@ export const getUser = async (req: RequestCastom, res: Response, next: NextFunct
   }
 };
 
-export const updateUser = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const updateUser = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.user;
-    const user = await User
-      .findByIdAndUpdate(id, ...req.body, { new: true, runValidators: true });
+    const user = await User.findByIdAndUpdate(id, ...req.body, {
+      new: true,
+      runValidators: true,
+    });
     if (!user) {
       throw new NotFoundError('Пользователь не найден');
     }
@@ -67,12 +85,19 @@ export const updateUser = async (req: RequestCastom, res: Response, next: NextFu
   }
 };
 
-export const updateAvatar = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const updateAvatar = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.user;
     const { avatar } = req.body;
-    const user = await User
-      .findByIdAndUpdate(id, { avatar }, { new: true, runValidators: true });
+    const user = await User.findByIdAndUpdate(
+      id,
+      { avatar },
+      { new: true, runValidators: true },
+    );
     if (!user) {
       throw new NotFoundError('Пользователь не найден');
     }
@@ -85,14 +110,22 @@ export const updateAvatar = async (req: RequestCastom, res: Response, next: Next
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { email, password } = req.body;
     const user = await User.findUserByCredentials(email, password);
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+      expiresIn: '7d',
+    });
 
-    res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
-    return res.status(200).send({ message: 'Авторизация успешна' });
+    return res
+      .cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true })
+      .status(200)
+      .send({ message: 'Авторизация успешна' });
   } catch (error) {
     return next(error);
   }
