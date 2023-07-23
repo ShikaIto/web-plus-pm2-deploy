@@ -69,10 +69,15 @@ export const updateUser = async (
 ) => {
   try {
     const id = req.user;
-    const user = await User.findByIdAndUpdate(id, ...req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const { about, name } = req.body;
+    const user = await User.findByIdAndUpdate(
+      id,
+      { about, name },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
     if (!user) {
       throw new NotFoundError('Пользователь не найден');
     }
@@ -118,7 +123,7 @@ export const login = async (
   try {
     const { email, password } = req.body;
     const user = await User.findUserByCredentials(email, password);
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+    const token = jwt.sign({ userId: user._id }, 'some-secret-key', {
       expiresIn: '7d',
     });
 

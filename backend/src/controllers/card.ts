@@ -5,7 +5,11 @@ import Card from '../models/card';
 import NotFoundError from '../errors/not-found-err';
 import ValidationError from '../errors/validation-err';
 
-export const getCards = async (req: Request, res: Response, next: NextFunction) => {
+export const getCards = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const cards = await Card.find();
     return res.status(200).send(cards);
@@ -14,7 +18,11 @@ export const getCards = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const createCard = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const createCard = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { name, link } = req.body;
     const newCard = await Card.create({ name, link, owner: req.user });
@@ -28,7 +36,11 @@ export const createCard = async (req: RequestCastom, res: Response, next: NextFu
   }
 };
 
-export const deleteCard = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const deleteCard = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { cardId } = req.params;
     const userId = req.user;
@@ -52,12 +64,19 @@ export const deleteCard = async (req: RequestCastom, res: Response, next: NextFu
   }
 };
 
-export const likeCard = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const likeCard = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { cardId } = req.params;
     const userId = req.user;
-    const card = await Card
-      .findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true });
+    const card = await Card.findByIdAndUpdate(
+      cardId,
+      { $addToSet: { likes: userId } },
+      { new: true },
+    );
     if (!card) {
       throw new NotFoundError('Карточка не найдена');
     }
@@ -73,12 +92,19 @@ export const likeCard = async (req: RequestCastom, res: Response, next: NextFunc
   }
 };
 
-export const dislikeCard = async (req: RequestCastom, res: Response, next: NextFunction) => {
+export const dislikeCard = async (
+  req: RequestCastom,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { cardId } = req.params;
     const userId = req.user;
-    const card = await Card
-      .findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true });
+    const card = await Card.findByIdAndUpdate(
+      cardId,
+      { $pull: { likes: userId } },
+      { new: true },
+    );
     if (!card) {
       throw new NotFoundError('Карточка не найдена');
     }

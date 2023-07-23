@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const user_1 = require("./user");
+const validator_1 = __importDefault(require("validator"));
 const cardSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -15,20 +15,24 @@ const cardSchema = new mongoose_1.default.Schema({
     link: {
         type: String,
         required: true,
+        validate: {
+            validator: (v) => validator_1.default.isURL(v),
+            message: 'Невалидная ссылка',
+        },
     },
     owner: {
-        userSchema: user_1.userSchema,
         type: mongoose_1.default.Types.ObjectId,
+        ref: 'user',
         required: true,
     },
     likes: [{
-            userSchema: user_1.userSchema,
             type: mongoose_1.default.Types.ObjectId,
+            ref: 'user',
             default: [],
         }],
     createdAt: {
         type: Date,
-        default: Date.now(),
-    }
+        default: Date.now,
+    },
 });
 exports.default = mongoose_1.default.model('card', cardSchema);
